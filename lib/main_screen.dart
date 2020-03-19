@@ -38,23 +38,55 @@ class _MainPageState extends State<MainPage> {
           child: ListView(
             children: <Widget>[
               DrawerHeader(
-                child: Text('Drawer Header'),
+                child: Center(
+                  child: Text('ANIMIST', style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(color: Colors.black, offset: Offset(-2, 2))
+                    ])),
+                ),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  image: DecorationImage(
+                    image: AssetImage('images/drawer_image.png'),
+                    fit: BoxFit.cover
+                  ),
+                  color: Colors.black,
                 ),
               ),
               ListTile(
-                title: Text('Item 1'),
+                title: Text('Popular'),
                 onTap: () {
                   // Update the state of the app.
                   // ...
                 },
               ),
               ListTile(
-                title: Text('Item 2'),
+                title: Text('New Season'),
                 onTap: () {
                   // Update the state of the app.
                   // ...
+                },
+              ),
+              ListTile(
+                title: Text('Popular'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: Text('Movies'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ..
+                },
+              ),
+              ListTile(
+                title: Text('Close'),
+                onTap: () {
+                  Navigator.pop(context, true);
                 },
               ),
             ],

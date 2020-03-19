@@ -10,7 +10,26 @@ class AnimeCard extends StatelessWidget {
     return Container(
       child: Stack(
         children: <Widget>[
-          Image.network(animeModel.imgUrl, width: 170, height: 220, fit: BoxFit.fill,),
+          Image.network(animeModel.imgUrl,
+              width: 170, height: 220, fit: BoxFit.fill),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(animeModel.name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white)),
+                      )),
+                )),
+          )
         ],
       ),
     );
@@ -18,18 +37,8 @@ class AnimeCard extends StatelessWidget {
 }
 
 /*
-Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Colors.black.withOpacity(0.8)
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: Center(
-                  child: Text('Boruto: Naruto Next Generations', style: TextStyle(fontSize: 8)),
-                ),
-              )
-            ),
+Image.network(animeModel.imgUrl,
+        width: 170, height: 220, fit: BoxFit.fill)
 
 */
 
