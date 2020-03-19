@@ -1,0 +1,56 @@
+https://kissanime.ru/Search/Anime?keyword=shingeki
+
+first requst = https://kissanime.ru/
+second request = https://kissanime.ru/favicon.ico
+last request = https://kissanime.ru/Message/ErrorsOccurred?aspxerrorpath=/favicon.ico
+
+getAnimeList() async {
+        var tempHeaders = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
+    };
+
+    final cloudflare = await _client.get('https://kissanime.ru/', headers: tempHeaders);
+
+    tempHeaders['Cookie'] = cloudflare.headers['set-cookie'].substring(0, 53);
+    tempHeaders['Referer'] = 'http://kissanime.ru/';
+    
+    print(cloudflare.headers['cf-ray'].substring(0, 16));
+    
+    final js = await _client.get('http://kissanime.ru/cdn-cgi/images/trace/jschal/js/transparent.gif?ray=' + cloudflare.headers['cf-ray'].substring(0, 16), headers: tempHeaders);
+    final js_cf_ray = js.headers['cf-ray'];
+    print(js_cf_ray.substring(0, 16));
+    print(js.statusCode);
+    final nojs = await _client.get('http://kissanime.ru/cdn-cgi/images/trace/jschal/nojs/transparent.gif?ray=' + cloudflare.headers['cf-ray'].substring(0, 16), headers: tempHeaders);
+    final nojs_cf_ray = nojs.headers['cf-ray'];
+    print(nojs_cf_ray.substring(0, 16));
+    print(nojs.statusCode);
+
+    final favicon = await _client.post('http://kissanime.ru/favicon.ico', headers: tempHeaders);
+    print(favicon.statusCode);
+
+    final tempFavicon = await _client.post(favicon.headers['location'], headers: tempHeaders);
+    print(tempFavicon.headers['location']);
+    print('Temp favicon: ' + tempFavicon.statusCode.toString());
+
+    tempHeaders['path'] = '/Message/ErrorsOccurred?aspxerrorpath=/favicon.ico';
+    tempHeaders['authority'] = 'kissanime.ru';
+
+    print(tempHeaders);
+
+    final response = await _client.get('https://kissanime.ru/' + tempFavicon.headers['location'], headers: tempHeaders);
+
+    print(response.statusCode);
+    /*
+    print(tempHeaders);
+    final mid = await _client.post('https://kissanime.ru/favicon.ico', headers: tempHeaders);
+    print(mid.headers['location']);
+
+
+    final retryClient = new RetryClient(_client, retries: 5, delay: (_) => Duration(seconds: 5));
+    final response = await retryClient.get('https://kissanime.ru' + mid.headers['location']);
+    //print(response.headers);
+    //print(response.headers['set-cookie'].substring(0, 53));
+
+    print(response.isRedirect);
+*/
+  }
