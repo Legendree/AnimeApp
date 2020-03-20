@@ -70,14 +70,14 @@ class _AnimePageState extends State<AnimePage> {
                                   textAlign: TextAlign.left,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.only(right: 8),
                                   child: Divider(
                                       thickness: 1, color: Colors.white12),
                                 ),
                                 Text(releaseDate,
                                     style: TextStyle(color: Colors.white54)),
                                 Padding(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.only(right: 8),
                                   child: Divider(
                                       thickness: 1, color: Colors.white12),
                                 ),

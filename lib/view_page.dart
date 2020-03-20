@@ -12,7 +12,7 @@ class ViewPage extends StatefulWidget {
 }
 
 class _ViewPageState extends State<ViewPage> {
-  //VideoPlayerController _controller;
+  VideoPlayerController _controller;
 
   http.Client _client;
   dom.Document _parsedPage;
@@ -25,11 +25,6 @@ class _ViewPageState extends State<ViewPage> {
     _client = new http.Client();
     print(widget.episodeUrl);
     _parsePage();
-    //_controller = VideoPlayerController.network(
-    //  'https://redirector.googlevideo.com/videoplayback?id=4a6c99e59a32ac21&itag=22&source=youtube&requiressl=yes&ei=wcJ0Xr7QCIWk7QT9iYaAAQ&susc=ytcp&mime=video/mp4&dur=1433.994&lmt=1584410328381367&txp=2216222&cmo=secure_transport=yes&ip=0.0.0.0&ipbits=0&expire=1584739137&sparams=ip,ipbits,expire,id,itag,source,requiressl,ei,susc,mime,dur,lmt&signature=47AEC855F4B5996392B146287373188C603C1FDFFDBB9D2D6CBFFA76CE610D0B.68A714F211448EFFEEDC9E2DA0772CEF86E5D6639C644E7D0F7FB1F59630F0D1&key=us0'
-    //)..initialize().then((_) {
-    //  setState(() {});
-    //});
   }
 
   @override
@@ -42,10 +37,10 @@ class _ViewPageState extends State<ViewPage> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-            //child: AspectRatio(
-            //aspectRatio: 16 / 9,
-            //child: VideoPlayer(_controller))
-            ),
+            child: _controller.value.initialized
+                ? AspectRatio(
+                    aspectRatio: 16 / 9, child: VideoPlayer(_controller))
+                : CircularProgressIndicator()),
       ),
     );
   }
@@ -71,6 +66,17 @@ class _ViewPageState extends State<ViewPage> {
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
     }))) return;
 
-    print(videoParser.document().outerHtml);
+    final videoLink = videoParser.document().getElementsByTagName('script');
+    _videoLink =
+        videoLink[3].text.substring(197, 700).trim();
+
+    _controller = VideoPlayerController.network(_videoLink)
+      ..initialize().then((_) {
+        setState(() {});
+      });
+
+      print(_videoLink);
+
+    //print(videoParser.document().body);
   }
 }
