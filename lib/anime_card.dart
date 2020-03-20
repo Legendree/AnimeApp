@@ -1,4 +1,5 @@
 import 'package:anime/anime_model.dart';
+import 'package:anime/anime_page.dart';
 import 'package:flutter/material.dart';
 
 class AnimeCard extends StatelessWidget {
@@ -8,29 +9,38 @@ class AnimeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
-        children: <Widget>[
-          Image.network(animeModel.imgUrl,
-              width: 170, height: 220, fit: BoxFit.fill),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.9),
-                          borderRadius: BorderRadius.circular(3)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(animeModel.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white)),
-                      )),
-                )),
-          )
-        ],
+      child: GestureDetector(
+        onTap: () async {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      AnimePage(animeModel: animeModel)));
+        },
+        child: Stack(
+          children: <Widget>[
+            Image.network(animeModel.imgUrl,
+                width: 170, height: 220, fit: BoxFit.fill),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.9),
+                            borderRadius: BorderRadius.circular(3)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(animeModel.name,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white)),
+                        )),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }
