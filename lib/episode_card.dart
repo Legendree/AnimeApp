@@ -1,15 +1,23 @@
+import 'package:anime/view_page.dart';
 import 'package:flutter/material.dart';
 
-class EpsiodeCard extends StatelessWidget {
-  EpsiodeCard({this.index});
+class EpisodeCard extends StatelessWidget {
+  EpisodeCard({this.index, this.url});
   final int index;
+  final String url;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () async {
-          
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ViewPage(
+                      episodeUrl: 'https://www16.gogoanime.io/' +
+                          url +
+                          index.toString())));
         },
         child: Container(
           decoration: BoxDecoration(color: Colors.white10),

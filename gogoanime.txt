@@ -1,2 +1,4 @@
 print(images[2].attributes.values.elementAt(0)); //get images for the animes [2] - first image of anime
 names[1].firstChild.attributes.values.elementAt(0) //getting link to anime
+
+videoplayback - for videos

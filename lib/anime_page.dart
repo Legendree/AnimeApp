@@ -18,6 +18,10 @@ class _AnimePageState extends State<AnimePage> {
   dom.Document _parsedPage;
 
   int episodeCount = 0;
+  String animeDescription = '';
+  String releaseDate = '';
+  String genre = '';
+  String urlForEpisode = '';
 
   bool isLoading = true;
 
@@ -61,7 +65,7 @@ class _AnimePageState extends State<AnimePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "Naruto was a young shinobi with an incorrigible knack for mischief. He achieved his dream to become the greatest ninja in the village and his face sits atop the Hokage monument. But this is not his story... A new generation of ninja are ready to take the stage, led by Naruto's own son, Boruto!",
+                                  animeDescription,
                                   style: TextStyle(color: Colors.white54),
                                   textAlign: TextAlign.left,
                                 ),
@@ -70,7 +74,14 @@ class _AnimePageState extends State<AnimePage> {
                                   child: Divider(
                                       thickness: 1, color: Colors.white12),
                                 ),
-                                Text('Year: ' + 2017.toString(),
+                                Text(releaseDate,
+                                    style: TextStyle(color: Colors.white54)),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Divider(
+                                      thickness: 1, color: Colors.white12),
+                                ),
+                                Text('Genre: ' + genre,
                                     style: TextStyle(color: Colors.white54))
                               ],
                             ),
@@ -87,7 +98,7 @@ class _AnimePageState extends State<AnimePage> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
                       itemBuilder: (context, index) {
-                        return EpsiodeCard(index: index);
+                        return EpisodeCard(index: index, url: urlForEpisode);
                       }),
                 ),
               ],
@@ -107,9 +118,14 @@ class _AnimePageState extends State<AnimePage> {
       _parsedPage = parser.document();
     });
 
-    final coverImage = _parsedPage.getElementsByClassName('type'); //Description
+    final description =
+        _parsedPage.getElementsByClassName('type'); //Description
+    animeDescription = description[1].text.substring(14);
+    releaseDate = description[3].text;
+    genre = description[2].text.split('\n')[1].trim();
 
-    print(coverImage[1].text);
+    urlForEpisode = widget.animeModel.animeUrl.substring(10);
+    urlForEpisode += '-episode-';
 
     episodeCount = _getEpisodes()[1];
   }
@@ -132,18 +148,3 @@ class _AnimePageState extends State<AnimePage> {
     return [firstEpisode, lastEpisode];
   }
 }
-
-/*
-Flexible(
-                        fit: FlexFit.tight,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            "Naruto was a young shinobi with an incorrigible knack for mischief. He achieved his dream to become the greatest ninja in the village and his face sits atop the Hokage monument. But this is not his story... A new generation of ninja are ready to take the stage, led by Naruto's own son, Boruto!",
-                            style: TextStyle(color: Colors.white54),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      )
-
-*/
