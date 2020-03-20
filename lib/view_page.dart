@@ -29,6 +29,8 @@ class _ViewPageState extends State<ViewPage> {
 
   @override
   void dispose() {
+    _controller.dispose();
+    print('video player killed');
     super.dispose();
   }
 
@@ -38,9 +40,19 @@ class _ViewPageState extends State<ViewPage> {
       body: SafeArea(
         child: Center(
             child: _controller.value.initialized
-                ? AspectRatio(
-                    aspectRatio: 16 / 9, child: VideoPlayer(_controller))
-                : CircularProgressIndicator()),
+              ? AspectRatio(
+                  aspectRatio: 16 / 9, child: VideoPlayer(_controller))
+              : CircularProgressIndicator()),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+              _controller.value.isPlaying
+                  ? _controller.pause()
+                  : _controller.play();
+            });
+        },
+        child: Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
       ),
     );
   }
@@ -58,8 +70,6 @@ class _ViewPageState extends State<ViewPage> {
     final episodeLink = _parsedPage.getElementsByTagName('iframe');
     String link = episodeLink[0].attributes.values.elementAt(0).substring(2);
 
-    print(link);
-
     final videoParser = new PageParser(url: 'http://' + link);
     if (!(await videoParser.parseData(_client, {
       'User-Agent':
@@ -67,16 +77,18 @@ class _ViewPageState extends State<ViewPage> {
     }))) return;
 
     final videoLink = videoParser.document().getElementsByTagName('script');
-    _videoLink =
-        videoLink[3].text.substring(197, 700).trim();
+    var vidLink = videoLink[3].text.substring(197, 700).trim();  
+    const start = "'";
+    const end = "'";
+    final startIndex =  vidLink.indexOf(start);
+    final endIndex = vidLink.indexOf(end, startIndex + start.length);
+    final trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);
 
-    _controller = VideoPlayerController.network(_videoLink)
+    print(trueVideoLink);
+
+    _controller = VideoPlayerController.network(trueVideoLink)
       ..initialize().then((_) {
         setState(() {});
       });
-
-      print(_videoLink);
-
-    //print(videoParser.document().body);
   }
 }
