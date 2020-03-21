@@ -28,6 +28,7 @@ dependencies:
   font_awesome_flutter: ^8.7.0
   modal_progress_hud: ^0.1.3
   video_player: ^0.10.8+1
+  chewie2: ^0.10.2
   flutter_native_admob: ^2.0.0+2
 
 dev_dependencies:

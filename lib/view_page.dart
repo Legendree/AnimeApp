@@ -1,5 +1,6 @@
 import 'package:animist/ad_card.dart';
 import 'package:animist/page_parser.dart';
+import 'package:chewie2/chewie2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
@@ -15,6 +16,7 @@ class ViewPage extends StatefulWidget {
 
 class _ViewPageState extends State<ViewPage> {
   VideoPlayerController _controller;
+  ChewieController _chewieController;
 
   http.Client _client;
   dom.Document _parsedPage;
@@ -46,10 +48,9 @@ class _ViewPageState extends State<ViewPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _controller.value.initialized
-              ? AspectRatio(
-                  aspectRatio: 16 / 9, child: VideoPlayer(_controller))
-              : CircularProgressIndicator(),
+          Chewie(
+            controller: _chewieController,
+          ),
           Container(
               decoration: BoxDecoration(color: Colors.white10),
               child: Padding(
@@ -105,11 +106,14 @@ class _ViewPageState extends State<ViewPage> {
 
     print(trueVideoLink);
 
-    _controller = VideoPlayerController.network(trueVideoLink)
-      ..initialize().then((_) {
-        setState(() {});
-      });
+    setState(() {
+      _controller = VideoPlayerController.network(trueVideoLink);
+    _chewieController = ChewieController(
+      videoPlayerController: _controller,
+      aspectRatio: 16 / 9,
+      autoPlay: true,
+      looping: false
+    );
+    });
   }
-
-  _bootupAdmob() {}
 }

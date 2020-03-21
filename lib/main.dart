@@ -17,7 +17,7 @@ class Anime extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Anime',
       theme: ThemeData(
-        accentColor: Color(0xffffffff),
+        accentColor: Color(0xff8C8C8C),
         scaffoldBackgroundColor: Color(0xff181818),
         textTheme: TextTheme()
       ),
