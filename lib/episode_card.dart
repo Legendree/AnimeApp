@@ -1,4 +1,4 @@
-import 'package:anime/view_page.dart';
+import 'package:animist/view_page.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeCard extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:anime/anime_model.dart';
-import 'package:anime/episode_card.dart';
-import 'package:anime/page_parser.dart';
+import 'package:animist/anime_model.dart';
+import 'package:animist/episode_card.dart';
+import 'package:animist/page_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;

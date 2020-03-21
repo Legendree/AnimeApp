@@ -1,6 +1,6 @@
-import 'package:anime/main_screen.dart';
-import 'package:anime/new_season_page.dart';
-import 'package:anime/search_page.dart';
+import 'package:animist/main_screen.dart';
+import 'package:animist/new_season_page.dart';
+import 'package:animist/search_page.dart';
 import 'package:flutter/material.dart';
 
 class AnimistDrawer extends StatelessWidget {

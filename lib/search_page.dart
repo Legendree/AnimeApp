@@ -1,4 +1,4 @@
-import 'package:anime/drawer.dart';
+import 'package:animist/drawer.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
