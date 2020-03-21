@@ -1,4 +1,4 @@
-package com.example.anime
+package me.hexio.animist
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
