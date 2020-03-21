@@ -1,16 +1,11 @@
-# anime
+# Animist
 
-A new Flutter project.
+Watch anime free with fast loading stream
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Copyright
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+All copyrights and trademarks are the property of their respective authors.
+All the content in the application is gathered from open sources on the Internet.
+If you think any of the contents are violating the copyrights, please report it to us via email.
+We will immediately process it.
