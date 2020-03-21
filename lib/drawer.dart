@@ -1,5 +1,6 @@
 import 'package:anime/main_screen.dart';
 import 'package:anime/new_season_page.dart';
+import 'package:anime/search_page.dart';
 import 'package:flutter/material.dart';
 
 class AnimistDrawer extends StatelessWidget {
@@ -25,6 +26,12 @@ class AnimistDrawer extends StatelessWidget {
                   fit: BoxFit.cover),
               color: Colors.black,
             ),
+          ),
+          ListTile(
+            title: Text('Search'),
+            onTap: () async {
+              await Navigator.pushNamedAndRemoveUntil(context, SearchPage.id, (Route<dynamic> route) => false);
+            },
           ),
           ListTile(
             title: Text('Popular'),

@@ -1,5 +1,6 @@
 import 'package:anime/main_screen.dart';
 import 'package:anime/new_season_page.dart';
+import 'package:anime/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -23,7 +24,8 @@ class Anime extends StatelessWidget {
       initialRoute: MainPage.id,
       routes: {
         MainPage.id: (context) => MainPage(),
-        NewSeasonPage.id: (context) => NewSeasonPage()
+        NewSeasonPage.id: (context) => NewSeasonPage(),
+        SearchPage.id: (context) => SearchPage()
       },
     );
   }
