@@ -8,6 +8,15 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
+  Icon searchIcon;
+
+  @override
+  void initState() {
+    super.initState();
+    searchIcon = new Icon(Icons.search);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +26,12 @@ class _SearchPageState extends State<SearchPage> {
           backgroundColor: Color(0xff181818),
           title: Text('SEARCH'),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.search), onPressed: () {})
+            IconButton(icon: searchIcon, onPressed: () {})
           ],),
     );
+  }
+
+    _searchPressed() {
+    
   }
 }

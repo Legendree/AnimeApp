@@ -1,3 +1,4 @@
+import 'package:anime/ad_card.dart';
 import 'package:anime/page_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -5,8 +6,9 @@ import 'package:html/dom.dart' as dom;
 import 'package:video_player/video_player.dart';
 
 class ViewPage extends StatefulWidget {
-  ViewPage({this.episodeUrl});
+  ViewPage({this.episodeUrl, @required this.episode});
   final String episodeUrl;
+  final int episode;
   @override
   _ViewPageState createState() => _ViewPageState();
 }
@@ -16,8 +18,6 @@ class _ViewPageState extends State<ViewPage> {
 
   http.Client _client;
   dom.Document _parsedPage;
-
-  String _videoLink = '';
 
   @override
   void initState() {
@@ -37,22 +37,40 @@ class _ViewPageState extends State<ViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Color(0xff181818),
+              title: Text('Episode ' + widget.episode.toString())),
       body: SafeArea(
-        child: Center(
-            child: _controller.value.initialized
+          child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _controller.value.initialized
               ? AspectRatio(
                   aspectRatio: 16 / 9, child: VideoPlayer(_controller))
-              : CircularProgressIndicator()),
-      ),
+              : CircularProgressIndicator(),
+          Container(
+              decoration: BoxDecoration(color: Colors.white10),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    "Please spare a moment to click this ad below, those clicks keep the app alive and updated. We don't like to force people on ads, so it is your decision to click it or not.",
+                    style: TextStyle(color: Colors.white.withOpacity(0.3))),
+              )),
+          AdCard()
+        ],
+      ))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-              _controller.value.isPlaying
-                  ? _controller.pause()
-                  : _controller.play();
-            });
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
+          });
         },
-        child: Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
+        child:
+            Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
       ),
     );
   }
@@ -77,12 +95,13 @@ class _ViewPageState extends State<ViewPage> {
     }))) return;
 
     final videoLink = videoParser.document().getElementsByTagName('script');
-    var vidLink = videoLink[3].text.substring(197, 700).trim();  
+    var vidLink = videoLink[3].text.substring(197, 700).trim();
     const start = "'";
     const end = "'";
-    final startIndex =  vidLink.indexOf(start);
+    final startIndex = vidLink.indexOf(start);
     final endIndex = vidLink.indexOf(end, startIndex + start.length);
-    final trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);
+    final trueVideoLink =
+        vidLink.substring(startIndex + start.length, endIndex);
 
     print(trueVideoLink);
 
@@ -91,4 +110,6 @@ class _ViewPageState extends State<ViewPage> {
         setState(() {});
       });
   }
+
+  _bootupAdmob() {}
 }

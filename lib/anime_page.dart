@@ -60,30 +60,35 @@ class _AnimePageState extends State<AnimePage> {
                           padding:
                               const EdgeInsets.only(left: 6, right: 2, top: 14),
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  animeDescription,
-                                  style: TextStyle(color: Colors.white54),
-                                  textAlign: TextAlign.left,
+                            padding: const EdgeInsets.only(top: 1.0, bottom: 8.0),
+                            child: Container(
+                              height: 204,
+                              child: SingleChildScrollView(
+                                                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      animeDescription,
+                                      style: TextStyle(color: Colors.white54),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: Divider(
+                                          thickness: 1, color: Colors.white12),
+                                    ),
+                                    Text(releaseDate,
+                                        style: TextStyle(color: Colors.white54)),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: Divider(
+                                          thickness: 1, color: Colors.white12),
+                                    ),
+                                    Text('Genre: ' + genre,
+                                        style: TextStyle(color: Colors.white54))
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Divider(
-                                      thickness: 1, color: Colors.white12),
-                                ),
-                                Text(releaseDate,
-                                    style: TextStyle(color: Colors.white54)),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Divider(
-                                      thickness: 1, color: Colors.white12),
-                                ),
-                                Text('Genre: ' + genre,
-                                    style: TextStyle(color: Colors.white54))
-                              ],
+                              ),
                             ),
                           ),
                         ),

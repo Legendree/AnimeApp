@@ -17,7 +17,7 @@ class EpisodeCard extends StatelessWidget {
                   builder: (BuildContext context) => ViewPage(
                       episodeUrl: 'https://www16.gogoanime.io/' +
                           url +
-                          index.toString())));
+                          index.toString(), episode: index)));
         },
         child: Container(
           decoration: BoxDecoration(color: Colors.white10),
