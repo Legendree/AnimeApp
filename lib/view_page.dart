@@ -62,17 +62,6 @@ class _ViewPageState extends State<ViewPage> {
           AdCard()
         ],
       ))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
-          });
-        },
-        child:
-            Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
-      ),
     );
   }
 
@@ -109,6 +98,14 @@ class _ViewPageState extends State<ViewPage> {
     setState(() {
       _controller = VideoPlayerController.network(trueVideoLink);
     _chewieController = ChewieController(
+      cupertinoProgressColors: ChewieProgressColors(
+        backgroundColor: Colors.black,
+        bufferedColor: Colors.black54
+      ),
+      materialProgressColors: ChewieProgressColors(
+        backgroundColor: Colors.black,
+        handleColor: Colors.black
+      ),
       videoPlayerController: _controller,
       aspectRatio: 16 / 9,
       autoPlay: true,
