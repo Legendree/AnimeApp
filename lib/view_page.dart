@@ -32,6 +32,8 @@ class _ViewPageState extends State<ViewPage> {
   @override
   void dispose() {
     _controller.dispose();
+    _chewieController.dispose();
+    _client.close();
     print('video player killed');
     super.dispose();
   }
@@ -40,13 +42,13 @@ class _ViewPageState extends State<ViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Color(0xff181818),
-              title: Text('Episode ' + widget.episode.toString())),
+          elevation: 0,
+          backgroundColor: Color(0xff181818),
+          title: Text('Episode ' + widget.episode.toString())),
       body: SafeArea(
           child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Chewie(
             controller: _chewieController,
@@ -76,9 +78,18 @@ class _ViewPageState extends State<ViewPage> {
     });
 
     final episodeLink = _parsedPage.getElementsByTagName('iframe');
+
     String link = episodeLink[0].attributes.values.elementAt(0).substring(2);
 
+/*
+    print('--------------------------------------------------------------');
+    print(link.replaceFirst('streaming', 'load', 16));
+    print('--------------------------------------------------------------');
+
+    print(link);
+*/
     final videoParser = new PageParser(url: 'http://' + link);
+
     if (!(await videoParser.parseData(_client, {
       'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
@@ -86,31 +97,64 @@ class _ViewPageState extends State<ViewPage> {
 
     final videoLink = videoParser.document().getElementsByTagName('script');
     var vidLink = videoLink[3].text.substring(197, 700).trim();
+    //print(videoLink[3].text);
     const start = "'";
     const end = "'";
     final startIndex = vidLink.indexOf(start);
     final endIndex = vidLink.indexOf(end, startIndex + start.length);
-    final trueVideoLink =
-        vidLink.substring(startIndex + start.length, endIndex);
+    var trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);
 
-    print(trueVideoLink);
+/*
+    print('--------------------------------------------------------------');
+    print(trueVideoLink.substring(
+        trueVideoLink.length - 4, trueVideoLink.length));
+    print('--------------------------------------------------------------');
+*/
+    if (trueVideoLink.substring(
+            trueVideoLink.length - 4, trueVideoLink.length) ==
+        'm3u8') {
+      final loadLink = link.replaceFirst('streaming', 'load', 16);
+      print(loadLink);
+      final m3u8Parser = new PageParser(url: 'http://' + loadLink);
+      if (!(await m3u8Parser.parseData(_client, {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
+      }))) return;
+      final videoLink = m3u8Parser.document().getElementsByTagName('script');
+      var vidLink = videoLink[2].text.substring(191, 329).trim();
+     // print(videoLink[2].text.substring(191, 329).trim());
+      const start = "'";
+      const end = "'";
+      final startIndex = vidLink.indexOf(start);
+      final endIndex = vidLink.indexOf(end, startIndex + start.length);
+      trueVideoLink =
+          vidLink.substring(startIndex + start.length, endIndex);
+
+      final t =trueVideoLink.substring(81, 113);
+
+      print(t);
+
+      final temp = 'https://hls13x.cdnfile.info/stream/';
+
+      trueVideoLink = temp + t + '/bna-episode-2' + '.m3u8';
+
+//https://hls13x.cdnfile.info/stream/2b6ae7027dfab875c9b80bed9e1c45a7/gegege-no-kitarou-2018-episode-96.m3u8
+          print(trueVideoLink);
+    }
+
+              print(trueVideoLink);
 
     setState(() {
       _controller = VideoPlayerController.network(trueVideoLink);
-    _chewieController = ChewieController(
-      cupertinoProgressColors: ChewieProgressColors(
-        backgroundColor: Colors.black,
-        bufferedColor: Colors.black54
-      ),
-      materialProgressColors: ChewieProgressColors(
-        backgroundColor: Colors.black,
-        handleColor: Colors.black
-      ),
-      videoPlayerController: _controller,
-      aspectRatio: 16 / 9,
-      autoPlay: true,
-      looping: false
-    );
+      _chewieController = ChewieController(
+          cupertinoProgressColors: ChewieProgressColors(
+              backgroundColor: Colors.black, bufferedColor: Colors.black54),
+          materialProgressColors: ChewieProgressColors(
+              backgroundColor: Colors.black, handleColor: Colors.black),
+          videoPlayerController: _controller,
+          aspectRatio: 16 / 9,
+          autoPlay: true,
+          looping: false);
     });
   }
 }

@@ -5,3 +5,61 @@ videoplayback - for videos
 
 
 search link: https://www16.gogoanime.io/search.html?keyword=
+
+
+
+
+              var playerInstance = jwplayer("myVideo");
+              var countplayer = 1;
+              var countcheck = 0;
+              playerInstance.setup({
+                  sources:[{file: 'https://hls12xx.cdnfile.info/videos/hls/d5lOfkZfdWo294IepP0bhQ/1584890349/137860/16ca4e95fa0060bc74c0fb1e91cd0e7d/sub.2.m3u8',label: 'Auto','default': 'true','type' : 'hls'}],
+                            tracks: [{ file: "https://cache.cdnfile.info/images/16ca4e95fa0060bc74c0fb1e91cd0e7d/2.vtt", kind: "thumbnails"}],image: "https://cache.cdnfile.info/images/16ca4e95fa0060bc74c0fb1e91cd0e7d/2_cover.jpg",              });
+              playerInstance.on('error', function() {
+                  countcheck ++;
+                  console.log("countcheck:"+countcheck);
+                  console.log("countplayer:"+countplayer);
+                  if(countcheck < 4){
+                      playerInstance.load();
+                      playerInstance.play();
+                  }
+
+                  if(countplayer == 1 && countcheck== 2){
+                      console.log("load link backup");
+                      countcheck = 0;
+                      countplayer ++;
+                      playerInstance.setup({
+                          sources:[{file: 'https://hls13x.cdnfile.info/stream/16ca4e95fa0060bc74c0fb1e91cd0e7d/bna-episode-2.m3u8',label: 'auto P','type' : 'mp4'},],
+                      tracks: [{ file: "https://cache.cdnfile.info/images/16ca4e95fa0060bc74c0fb1e91cd0e7d/2.vtt", kind: "thumbnails"}],image: "https://cache.cdnfile.info/images/16ca4e95fa0060bc74c0fb1e91cd0e7d/2_cover.jpg",                  });
+                      playerInstance.play();
+                      playerInstance.on('error', function() {
+                          console.log("load openload");
+                          window.location = "//vidstreaming.io/server.php?id=MTM3ODYw&title=BNA+Episode+2";
+                      });
+                      playerInstance.addButton(
+                          "https://vidstreaming.io/img/download.svg",
+                          "Download Video",
+                          function() {
+                              window.open(
+                                  "https://vidstreaming.io/download?id=MTM3ODYw&title=BNA+Episode+2&typesub=",
+                                  "_blank"
+                              );
+                          },
+                          "download"
+                      );
+                  }
+
+
+              });
+              playerInstance.addButton(
+                  "https://vidstreaming.io/img/download.svg",
+                  "Download Video",
+                  function() {
+                      window.open(
+                          "https://vidstreaming.io/download?id=MTM3ODYw&title=BNA+Episode+2&typesub=",
+                          "_blank"
+                      );
+                  },
+                  "download"
+              );
+          

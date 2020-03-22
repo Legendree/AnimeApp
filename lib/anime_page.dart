@@ -33,6 +33,12 @@ class _AnimePageState extends State<AnimePage> {
   }
 
   @override
+  void dispose() {
+    _client.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: isLoading,
@@ -64,7 +70,7 @@ class _AnimePageState extends State<AnimePage> {
                             child: Container(
                               height: 204,
                               child: SingleChildScrollView(
-                                                              child: Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
@@ -103,7 +109,7 @@ class _AnimePageState extends State<AnimePage> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
                       itemBuilder: (context, index) {
-                        return EpisodeCard(index: index, url: urlForEpisode);
+                        return EpisodeCard(index: index + 1, url: urlForEpisode);
                       }),
                 ),
               ],
@@ -142,7 +148,7 @@ class _AnimePageState extends State<AnimePage> {
       episodes.add(f.firstChild.parent.text.split('\n')[1].trim().split('-'));
     });
 
-    var firstEpisode = int.parse(episodes[0][0]);
+    //var firstEpisode = int.parse(episodes[0][0]);
     var lastEpisode = int.parse(episodes[episodes.length - 1]
         [episodes[episodes.length - 1].length - 1]);
 
@@ -150,6 +156,8 @@ class _AnimePageState extends State<AnimePage> {
       isLoading = false;
     });
 
-    return [firstEpisode, lastEpisode];
+    print([1, lastEpisode]);
+
+    return [1, lastEpisode];
   }
 }
