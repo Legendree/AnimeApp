@@ -121,30 +121,47 @@ class _ViewPageState extends State<ViewPage> {
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
       }))) return;
       final videoLink = m3u8Parser.document().getElementsByTagName('script');
-      var vidLink = videoLink[2].text.substring(191, 329).trim();
-     // print(videoLink[2].text.substring(191, 329).trim());
-      const start = "'";
-      const end = "'";
-      final startIndex = vidLink.indexOf(start);
-      final endIndex = vidLink.indexOf(end, startIndex + start.length);
-      trueVideoLink =
-          vidLink.substring(startIndex + start.length, endIndex);
 
-      final t =trueVideoLink.substring(81, 113);
+      if(videoLink[2].text.length < 200 || videoLink[2].text.isEmpty) {
+        for (int i = 0; i < videoLink.length; ++i) {
+        if (videoLink[i].text.isNotEmpty) {
+          if (videoLink[i].text.length > 200) {
+            var vidLink = videoLink[i].text.substring(191, 329).trim();
+            print(videoLink[i].text.substring(191, 329).trim());
+            const start = "'";
+            const end = "'";
+            final startIndex = vidLink.indexOf(start);
+            final endIndex = vidLink.indexOf(end, startIndex + start.length);
+            trueVideoLink =
+                vidLink.substring(startIndex + start.length, endIndex);
+            print('TRUE LINK: ' + trueVideoLink);
+            break;
+          }
+        }
+      }
+      } else {
+        var vidLink = videoLink[2].text.substring(191, 329).trim();
+        // print(videoLink[2].text.substring(191, 329).trim());
+        const start = "'";
+        const end = "'";
+        final startIndex = vidLink.indexOf(start);
+        final endIndex = vidLink.indexOf(end, startIndex + start.length);
+        trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);      
+        final t = trueVideoLink.substring(81, 113);
 
-      print(t);
+        print(t);
 
-      final temp = 'https://hls13x.cdnfile.info/stream/';
-
-      trueVideoLink = temp + t + widget.episodeUrl.substring(28) + '.m3u8';
+        final temp = 'https://hls13x.cdnfile.info/stream/';
+        trueVideoLink = temp + t + '/' + widget.episodeUrl.substring(28) + '.m3u8';
+      }
 
       //fixing faulty links ^^^^^^^^^^^^^^^^^^^^^^^^ from stream.php to load.php and then getting new link
 
 //https://hls13x.cdnfile.info/stream/2b6ae7027dfab875c9b80bed9e1c45a7/gegege-no-kitarou-2018-episode-96.m3u8
-          print(trueVideoLink);
+      print(trueVideoLink);
     }
 
-              print(trueVideoLink);
+    print(trueVideoLink);
 
     setState(() {
       _controller = VideoPlayerController.network(trueVideoLink);
