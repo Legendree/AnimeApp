@@ -1,4 +1,5 @@
 import 'package:animist/main_screen.dart';
+import 'package:animist/movie_page.dart';
 import 'package:animist/new_season_page.dart';
 import 'package:animist/search_page.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +57,7 @@ class AnimistDrawer extends StatelessWidget {
           ListTile(
             title: Text('Movies'),
             onTap: () async {
-              // Update the state of the app.
-              // ..
+              await Navigator.pushNamedAndRemoveUntil(context, MoviePage.id, (Route<dynamic> route) => false);
             },
           ),
           ListTile(

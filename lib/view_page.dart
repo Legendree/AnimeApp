@@ -122,8 +122,8 @@ class _ViewPageState extends State<ViewPage> {
       }))) return;
       final videoLink = m3u8Parser.document().getElementsByTagName('script');
 
-      if(videoLink[2].text.length < 200 || videoLink[2].text.isEmpty) {
-        for (int i = 0; i < videoLink.length; ++i) {
+      // if(videoLink[0].text.length < 200 || videoLink[0].text.isEmpty) {
+      for (int i = 0; i < videoLink.length; ++i) {
         if (videoLink[i].text.isNotEmpty) {
           if (videoLink[i].text.length > 200) {
             var vidLink = videoLink[i].text.substring(191, 329).trim();
@@ -139,21 +139,35 @@ class _ViewPageState extends State<ViewPage> {
           }
         }
       }
-      } else {
+      print('Episode name + .M3U8: ' +
+          trueVideoLink.substring(
+              trueVideoLink.length -
+                  widget.episodeUrl.substring(28).length -
+                  '.m3u8'.length,
+              trueVideoLink.length));
+      // } else {
+      if (trueVideoLink.substring(
+              trueVideoLink.length -
+                  widget.episodeUrl.substring(28).length -
+                  '.m3u8'.length,
+              trueVideoLink.length) !=
+          widget.episodeUrl.substring(28) + '.m3u8') {
         var vidLink = videoLink[2].text.substring(191, 329).trim();
         // print(videoLink[2].text.substring(191, 329).trim());
         const start = "'";
         const end = "'";
         final startIndex = vidLink.indexOf(start);
         final endIndex = vidLink.indexOf(end, startIndex + start.length);
-        trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);      
+        trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);
         final t = trueVideoLink.substring(81, 113);
 
         print(t);
 
         final temp = 'https://hls13x.cdnfile.info/stream/';
-        trueVideoLink = temp + t + '/' + widget.episodeUrl.substring(28) + '.m3u8';
+        trueVideoLink =
+            temp + t + '/' + widget.episodeUrl.substring(28) + '.m3u8';
       }
+      //    }
 
       //fixing faulty links ^^^^^^^^^^^^^^^^^^^^^^^^ from stream.php to load.php and then getting new link
 

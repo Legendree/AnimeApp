@@ -8,13 +8,18 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final TextEditingController _filter = new TextEditingController();
 
-  Icon searchIcon;
+  Icon _searchIcon;
+  Widget _appBarTitle;
+
+  String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    searchIcon = new Icon(Icons.search);
+    _searchIcon = new Icon(Icons.search);
+    _appBarTitle = Text('SEARCH');
   }
 
   @override
@@ -22,16 +27,54 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       drawer: AnimistDrawer(),
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Color(0xff181818),
-          title: Text('SEARCH'),
-          actions: <Widget>[
-            IconButton(icon: searchIcon, onPressed: () {})
-          ],),
+        elevation: 0,
+        backgroundColor: Color(0xff181818),
+        title: _appBarTitle,
+        actions: <Widget>[
+          IconButton(icon: _searchIcon, onPressed: () => _onSearchPage())
+        ],
+      ),
     );
   }
 
-    _searchPressed() {
-    
+  _onSearchPage() {
+    setState(() {
+      if (_searchIcon.icon == Icons.search) {
+        _searchIcon = Icon(Icons.close);
+        _appBarTitle = TextField(
+          maxLength: 24,
+          maxLines: 1,
+          onChanged: (value) {
+            setState(() {
+              searchQuery = value;
+            });
+            print(searchQuery);
+          },
+          style: TextStyle(color: Colors.white),
+          controller: _filter,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.6)),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.9)),
+              ),
+              hintStyle: TextStyle(color: Colors.white54),
+              hoverColor: Colors.white,
+              labelStyle: TextStyle(color: Colors.white),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.search, color: Colors.white),
+                onPressed: () {
+
+                }),
+              hintText: 'Search anime...'),
+        );
+      } else {
+        _searchIcon = Icon(Icons.search);
+        _appBarTitle = Text('SEARCH');
+        _filter.clear();
+      }
+    });
   }
 }
