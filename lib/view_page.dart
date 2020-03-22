@@ -136,7 +136,9 @@ class _ViewPageState extends State<ViewPage> {
 
       final temp = 'https://hls13x.cdnfile.info/stream/';
 
-      trueVideoLink = temp + t + '/bna-episode-2' + '.m3u8';
+      trueVideoLink = temp + t + widget.episodeUrl.substring(28) + '.m3u8';
+
+      //fixing faulty links ^^^^^^^^^^^^^^^^^^^^^^^^ from stream.php to load.php and then getting new link
 
 //https://hls13x.cdnfile.info/stream/2b6ae7027dfab875c9b80bed9e1c45a7/gegege-no-kitarou-2018-episode-96.m3u8
           print(trueVideoLink);
