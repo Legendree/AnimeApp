@@ -1,3 +1,4 @@
+import 'package:animist/anime_list_page.dart';
 import 'package:animist/main_screen.dart';
 import 'package:animist/movie_page.dart';
 import 'package:animist/new_season_page.dart';
@@ -27,7 +28,8 @@ class Anime extends StatelessWidget {
         MainPage.id: (context) => MainPage(),
         NewSeasonPage.id: (context) => NewSeasonPage(),
         SearchPage.id: (context) => SearchPage(),
-        MoviePage.id: (context) => MoviePage()
+        MoviePage.id: (context) => MoviePage(),
+        AnimeListPage.id: (context) => AnimeListPage()
       },
     );
   }

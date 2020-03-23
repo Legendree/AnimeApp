@@ -74,7 +74,11 @@ class _ViewPageState extends State<ViewPage> {
                   controller: _chewieController,
                 );
               } else if (snapshot.hasError) {
-                return Container(child: Icon(Icons.error_outline));
+                return Container(
+                    height: 200,
+                    child: Center(
+                      child: Icon(Icons.error_outline),
+                    ));
               } else {
                 return Container(
                     height: 200,

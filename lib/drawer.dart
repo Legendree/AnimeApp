@@ -1,3 +1,4 @@
+import 'package:animist/anime_list_page.dart';
 import 'package:animist/main_screen.dart';
 import 'package:animist/movie_page.dart';
 import 'package:animist/new_season_page.dart';
@@ -31,33 +32,37 @@ class AnimistDrawer extends StatelessWidget {
           ListTile(
             title: Text('Search'),
             onTap: () async {
-              await Navigator.pushNamedAndRemoveUntil(context, SearchPage.id, (Route<dynamic> route) => false);
+              await Navigator.pushNamedAndRemoveUntil(
+                  context, SearchPage.id, (Route<dynamic> route) => false);
             },
           ),
           ListTile(
             title: Text('Popular'),
             onTap: () async {
-              await Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (Route<dynamic> route) => false);
+              await Navigator.pushNamedAndRemoveUntil(
+                  context, MainPage.id, (Route<dynamic> route) => false);
             },
           ),
           ListTile(
             title: Text('New Season'),
             onTap: () async {
               //await Navigator.pushNamed(context, NewSeasonPage.id);
-              await Navigator.pushNamedAndRemoveUntil(context, NewSeasonPage.id, (Route<dynamic> route) => false);
+              await Navigator.pushNamedAndRemoveUntil(
+                  context, NewSeasonPage.id, (Route<dynamic> route) => false);
             },
           ),
           ListTile(
             title: Text('Anime List'),
             onTap: () async {
-              // Update the state of the app.
-              // ...
+              await Navigator.pushNamedAndRemoveUntil(
+                  context, AnimeListPage.id, (Route<dynamic> route) => false);
             },
           ),
           ListTile(
             title: Text('Movies'),
             onTap: () async {
-              await Navigator.pushNamedAndRemoveUntil(context, MoviePage.id, (Route<dynamic> route) => false);
+              await Navigator.pushNamedAndRemoveUntil(
+                  context, MoviePage.id, (Route<dynamic> route) => false);
             },
           ),
           ListTile(
