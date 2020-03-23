@@ -128,7 +128,7 @@ class _ViewPageState extends State<ViewPage> {
                   '.m3u8'.length,
               trueVideoLink.length) !=
           widget.episodeUrl.substring(28) + '.m3u8') {
-        var vidLink = videoLink[2].text.substring(197, widget.episodeUrl.length + 1).trim();
+        var vidLink = videoLink[2].text;
         // print(videoLink[2].text.substring(191, 329).trim());
         const start = "'";
         const end = "'";
