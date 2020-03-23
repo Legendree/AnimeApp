@@ -2,6 +2,7 @@ import 'package:animist/anime_list_page.dart';
 import 'package:animist/main_screen.dart';
 import 'package:animist/movie_page.dart';
 import 'package:animist/new_season_page.dart';
+import 'package:animist/privacy_page.dart';
 import 'package:animist/search_page.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +64,13 @@ class AnimistDrawer extends StatelessWidget {
             onTap: () async {
               await Navigator.pushNamedAndRemoveUntil(
                   context, MoviePage.id, (Route<dynamic> route) => false);
+            },
+          ),
+          ListTile(
+            title: Text('Privacy Policy'),
+            onTap: () async {
+              await Navigator.pushNamedAndRemoveUntil(
+                  context, PolicyPage.id, (Route<dynamic> route) => false);
             },
           ),
           ListTile(

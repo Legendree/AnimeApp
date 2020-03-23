@@ -2,6 +2,7 @@ import 'package:animist/anime_list_page.dart';
 import 'package:animist/main_screen.dart';
 import 'package:animist/movie_page.dart';
 import 'package:animist/new_season_page.dart';
+import 'package:animist/privacy_page.dart';
 import 'package:animist/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,7 +30,8 @@ class Anime extends StatelessWidget {
         NewSeasonPage.id: (context) => NewSeasonPage(),
         SearchPage.id: (context) => SearchPage(),
         MoviePage.id: (context) => MoviePage(),
-        AnimeListPage.id: (context) => AnimeListPage()
+        AnimeListPage.id: (context) => AnimeListPage(),
+        PolicyPage.id: (context) => PolicyPage()
       },
     );
   }
