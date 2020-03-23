@@ -21,7 +21,7 @@ class AdCard extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Text("Failed to load ad, which is unusual :(".toUpperCase(),
+                  child: Text("Oops, no ads here it seems :D".toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 )
                 )

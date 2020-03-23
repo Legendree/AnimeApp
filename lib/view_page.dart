@@ -21,12 +21,16 @@ class _ViewPageState extends State<ViewPage> {
   http.Client _client;
   dom.Document _parsedPage;
 
+  Future videoLink;
+
   @override
   void initState() {
     super.initState();
     _client = new http.Client();
     print(widget.episodeUrl);
-    _parsePage();
+    setState(() {
+      videoLink = _parsePage();
+    });
   }
 
   @override
@@ -50,8 +54,35 @@ class _ViewPageState extends State<ViewPage> {
               child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Chewie(
-            controller: _chewieController,
+          FutureBuilder(
+            future: videoLink,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                _controller = VideoPlayerController.network(snapshot.data);
+                _chewieController = ChewieController(
+                    cupertinoProgressColors: ChewieProgressColors(
+                        backgroundColor: Colors.black,
+                        bufferedColor: Colors.black54),
+                    materialProgressColors: ChewieProgressColors(
+                        backgroundColor: Colors.black,
+                        handleColor: Colors.black),
+                    videoPlayerController: _controller,
+                    aspectRatio: 16 / 9,
+                    autoPlay: true,
+                    looping: false);
+                return Chewie(
+                  controller: _chewieController,
+                );
+              } else if (snapshot.hasError) {
+                return Container(child: Icon(Icons.error_outline));
+              } else {
+                return Container(
+                    height: 200,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ));
+              }
+            },
           ),
           Container(
               decoration: BoxDecoration(color: Colors.white10),
@@ -67,7 +98,7 @@ class _ViewPageState extends State<ViewPage> {
     );
   }
 
-  _parsePage() async {
+  Future _parsePage() async {
     final parser = new PageParser(url: widget.episodeUrl);
     if (!(await parser.parseData(_client, {
       'User-Agent':
@@ -178,7 +209,11 @@ class _ViewPageState extends State<ViewPage> {
     }
 
     print(trueVideoLink);
+    return trueVideoLink;
+  }
+}
 
+/*
     setState(() {
       _controller = VideoPlayerController.network(trueVideoLink);
       _chewieController = ChewieController(
@@ -191,5 +226,5 @@ class _ViewPageState extends State<ViewPage> {
           autoPlay: true,
           looping: false);
     });
-  }
-}
+
+*/
