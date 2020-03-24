@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 final kPolicyIntro = """Animist Team ("us", "we", or "our") operates the Animist mobile application (the "Service").
 
 This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. Our Privacy Policy for Gotardo Prime is created with the help of the Free Privacy Policy Generator.
@@ -33,4 +35,15 @@ final kChildrenPrivacy = """These Services do not address anyone under the age o
 
 final kChangesText = """I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.""";
 
-final kContact = """If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at animistapp@protonmail.com.""";
+//final kContact = """If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at animistapp@protonmail.com.""";
+
+final kContact = RichText(
+                  text: TextSpan(
+                    //Please spare a moment to click this ad below, those clicks keep the app alive and updated. We don't like to force people on ads, so it is your decision to click it or not.
+                    children: <TextSpan>[
+                      TextSpan(text: 'If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at ', style: TextStyle(color: Colors.white.withOpacity(0.8))),
+                      TextSpan(text: 'animistapp@protonmail.com', style: TextStyle(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.bold)),
+                      TextSpan(text: ".", style: TextStyle(color: Colors.white.withOpacity(0.8)))
+                    ]
+                  )
+                );

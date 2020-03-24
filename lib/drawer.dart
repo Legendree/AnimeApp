@@ -45,7 +45,7 @@ class AnimistDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('New Season'),
+            title: Text('New'),
             onTap: () async {
               //await Navigator.pushNamed(context, NewSeasonPage.id);
               await Navigator.pushNamedAndRemoveUntil(

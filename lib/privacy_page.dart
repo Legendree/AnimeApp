@@ -72,7 +72,7 @@ class _PolicyPageState extends State<PolicyPage> {
                     child: Text('Contact Us',
                         style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
                   ),
-                  Text(kContact, style: TextStyle(color: Colors.white.withOpacity(0.8))),
+                  kContact
                 ],
               ),
             ),

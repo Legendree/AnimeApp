@@ -35,7 +35,7 @@ class _NewSeasonPageState extends State<NewSeasonPage> {
         appBar: AppBar(
             elevation: 0,
             backgroundColor: Color(0xff181818),
-            title: Text('NEW SEASON')),
+            title: Text('NEW')),
         drawer: AnimistDrawer(),
         body: SafeArea(
             child: FutureBuilder(
