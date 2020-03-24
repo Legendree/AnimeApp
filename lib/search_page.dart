@@ -106,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
       animList.add(new AnimeModel(
           name: names[i].text,
           imgUrl: images[2 + i].attributes.values.elementAt(0),
-          animeUrl: names[i].firstChild.attributes.values.elementAt(0)));
+          animeUrl: names[i].firstChild.attributes.values.elementAt(0))); 
     }
     return animList;
   }
@@ -130,14 +130,10 @@ class _SearchPageState extends State<SearchPage> {
               });
               print(searchQuery);
             },
-            style: TextStyle(color: Colors.white.withOpacity(0.9)),
+            style: TextStyle(color: Colors.white.withOpacity(0.9), decoration: TextDecoration.none),
             controller: _filter,
             decoration: InputDecoration(
                 border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
                 hintStyle: TextStyle(color: Colors.white54),
                 hoverColor: Colors.white,
                 labelStyle: TextStyle(color: Colors.white),
