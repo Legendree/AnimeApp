@@ -96,8 +96,8 @@ class _ViewPageState extends State<ViewPage> {
                   text: TextSpan(
                     //Please spare a moment to click this ad below, those clicks keep the app alive and updated. We don't like to force people on ads, so it is your decision to click it or not.
                     children: <TextSpan>[
-                      TextSpan(text: 'Please spare a moment to click this ad below, those clicks ', style: TextStyle(color: Colors.white.withOpacity(0.3))),
-                      TextSpan(text: 'keep the app alive and updated.', style: TextStyle(color: Colors.white.withOpacity(0.3), fontWeight: FontWeight.bold)),
+                      TextSpan(text: 'Please spare a moment to click this ad below, those ', style: TextStyle(color: Colors.white.withOpacity(0.3))),
+                      TextSpan(text: 'ad clicks keep the app alive and updated.', style: TextStyle(color: Colors.white.withOpacity(0.3), fontWeight: FontWeight.bold)),
                       TextSpan(text: " We don't like to force people on ads, so it is your decision to click it or not.", style: TextStyle(color: Colors.white.withOpacity(0.3)))
                     ]
                   )
