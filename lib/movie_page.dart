@@ -13,6 +13,12 @@ class MoviePage extends StatefulWidget {
 }
 
 class _MoviePageState extends State<MoviePage> {
+  int pageIndex = 1;
+  ScrollController _scrollController;
+
+  List<AnimeModel> _animList = [];
+  Future<List<AnimeModel>> _futureAnimeList;
+
   http.Client _client;
   dom.Document _parsedPage;
 
@@ -20,13 +26,21 @@ class _MoviePageState extends State<MoviePage> {
   void initState() {
     super.initState();
     _client = new http.Client();
+    _scrollController = new ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _parseMoviePage();
+      }
+    });
     _parseMoviePage();
   }
 
   @override
   void dispose() {
-    if(_client != null)
-      _client.close();
+    _scrollController?.dispose();
+    _animList.clear();
+    if (_client != null) _client.close();
     super.dispose();
   }
 
@@ -40,13 +54,14 @@ class _MoviePageState extends State<MoviePage> {
             title: Text('MOVIES')),
         body: SafeArea(
             child: FutureBuilder(
-          future: _getAnimeList(),
+          future: _futureAnimeList,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
               return GridView.builder(
+                  controller: _scrollController,
                   itemCount: snapshot.data.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -74,21 +89,21 @@ class _MoviePageState extends State<MoviePage> {
     }))) return;
     setState(() {
       _parsedPage = parser.document();
+      _futureAnimeList = _getAnimeList();
     });
+    ++pageIndex;
   }
 
   Future<List<AnimeModel>> _getAnimeList() async {
-    List<AnimeModel> animList = [];
-
     final names = _parsedPage.getElementsByClassName('name');
     final images = _parsedPage.getElementsByTagName('img');
 
     for (int i = 0; i < names.length; ++i) {
-      animList.add(new AnimeModel(
+      _animList.add(new AnimeModel(
           name: names[i].text,
           imgUrl: images[2 + i].attributes.values.elementAt(0),
           animeUrl: names[i].firstChild.attributes.values.elementAt(0)));
     }
-    return animList;
+    return _animList;
   }
 }

@@ -13,7 +13,11 @@ class AnimeListPage extends StatefulWidget {
 }
 
 class _AnimeListPageState extends State<AnimeListPage> {
+  int pageIndex = 1;
+  ScrollController _scrollController;
+
   List<AnimeModel> _animList = [];
+  Future<List<AnimeModel>> _futureAnimeList;
 
   http.Client _client;
   dom.Document _parsedPage;
@@ -22,11 +26,19 @@ class _AnimeListPageState extends State<AnimeListPage> {
   void initState() {
     super.initState();
     _client = new http.Client();
+    _scrollController = new ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _parseAnimePage();
+      }
+    });
     _parseAnimePage();
   }
 
   @override
   void dispose() {
+    _scrollController?.dispose();
     _animList.clear();
     _client.close();
     super.dispose();
@@ -42,13 +54,14 @@ class _AnimeListPageState extends State<AnimeListPage> {
             title: Text('ANIME LIST')),
         body: SafeArea(
             child: FutureBuilder(
-          future: _getAnimeList(),
+          future: _futureAnimeList,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
               return GridView.builder(
+                  controller: _scrollController,
                   itemCount: snapshot.data.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -69,32 +82,22 @@ class _AnimeListPageState extends State<AnimeListPage> {
 
   Future _parseAnimePage() async {
     final parser = new PageParser(
-        url: 'https://www16.gogoanime.io/anime-list.html?page=1');
+        url: 'https://www16.gogoanime.io/anime-list.html?page=' +
+            pageIndex.toString());
     if (!(await parser.parseData(_client, {
       'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
     }))) return;
     setState(() {
       _parsedPage = parser.document();
+      _futureAnimeList = _getAnimeList();
     });
+    ++pageIndex;
   }
 
   Future<List<AnimeModel>> _getAnimeList() async {
     final listing = _parsedPage.getElementsByClassName('listing');
-
-    //listing[0].children.forEach(
-    //    (f) => print(f.children.first.attributes.values.first.trimLeft()));
-    //listing[0].children.forEach((f) => print(f.children.first.text.trimLeft()));
-
     for (int i = 0; i < listing[0].children.length; ++i) {
-      print(listing[0]
-          .children[i]
-          .children
-          .first
-          .attributes
-          .values
-          .first
-          .trimLeft());
       _animList.add(new AnimeModel(
           name: listing[0].children[i].children.first.text.trimLeft(),
           imgUrl: null,
