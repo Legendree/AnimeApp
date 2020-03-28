@@ -13,6 +13,8 @@ class AnimeListPage extends StatefulWidget {
 }
 
 class _AnimeListPageState extends State<AnimeListPage> {
+  List<AnimeModel> _animList = [];
+
   http.Client _client;
   dom.Document _parsedPage;
 
@@ -25,6 +27,7 @@ class _AnimeListPageState extends State<AnimeListPage> {
 
   @override
   void dispose() {
+    _animList.clear();
     _client.close();
     super.dispose();
   }
@@ -77,16 +80,22 @@ class _AnimeListPageState extends State<AnimeListPage> {
   }
 
   Future<List<AnimeModel>> _getAnimeList() async {
-    List<AnimeModel> animList = [];
-
     final listing = _parsedPage.getElementsByClassName('listing');
 
-    // listing[0].children.forEach(
+    //listing[0].children.forEach(
     //    (f) => print(f.children.first.attributes.values.first.trimLeft()));
     //listing[0].children.forEach((f) => print(f.children.first.text.trimLeft()));
 
     for (int i = 0; i < listing[0].children.length; ++i) {
-      animList.add(new AnimeModel(
+      print(listing[0]
+          .children[i]
+          .children
+          .first
+          .attributes
+          .values
+          .first
+          .trimLeft());
+      _animList.add(new AnimeModel(
           name: listing[0].children[i].children.first.text.trimLeft(),
           imgUrl: null,
           animeUrl: listing[0]
@@ -98,7 +107,6 @@ class _AnimeListPageState extends State<AnimeListPage> {
               .first
               .trimLeft()));
     }
-
-    return animList;
+    return _animList;
   }
 }

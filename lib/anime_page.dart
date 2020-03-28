@@ -55,18 +55,28 @@ class _AnimePageState extends State<AnimePage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.max, //145 237
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Image.network(widget.animeModel.imgUrl,
-                          width: 145, height: 237),
+                      widget.animeModel.imgUrl != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: Image.network(widget.animeModel.imgUrl,
+                                  width: 145, height: 210, fit: BoxFit.fill),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: Image.asset('images/img_block.png',
+                                  width: 145, height: 210, fit: BoxFit.fill),
+                            ),
                       Flexible(
                         fit: FlexFit.tight,
                         child: Padding(
                           padding:
                               const EdgeInsets.only(left: 6, right: 2, top: 14),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 1.0, bottom: 8.0),
+                            padding:
+                                const EdgeInsets.only(top: 1.0, bottom: 8.0),
                             child: Container(
                               height: 204,
                               child: SingleChildScrollView(
@@ -84,7 +94,8 @@ class _AnimePageState extends State<AnimePage> {
                                           thickness: 1, color: Colors.white12),
                                     ),
                                     Text(releaseDate,
-                                        style: TextStyle(color: Colors.white54)),
+                                        style:
+                                            TextStyle(color: Colors.white54)),
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: Divider(
@@ -109,7 +120,8 @@ class _AnimePageState extends State<AnimePage> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
                       itemBuilder: (context, index) {
-                        return EpisodeCard(index: index + 1, url: urlForEpisode);
+                        return EpisodeCard(
+                            index: index + 1, url: urlForEpisode);
                       }),
                 ),
               ],

@@ -19,13 +19,11 @@ class AnimeCard extends StatelessWidget {
         },
         child: Stack(
           children: <Widget>[
-            Image.network(
-                animeModel.imgUrl != null
-                    ? animeModel.imgUrl
-                    : Image.asset('images/img_block.png'),
-                width: 170,
-                height: 220,
-                fit: BoxFit.fill),
+            animeModel.imgUrl != null
+                ? Image.network(animeModel.imgUrl,
+                    width: 170, height: 220, fit: BoxFit.fill)
+                : Image.asset('images/img_block.png',
+                    width: 170, height: 220, fit: BoxFit.fill),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
