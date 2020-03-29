@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animist/anime_card.dart';
 import 'package:animist/anime_model.dart';
 import 'package:animist/drawer.dart';
@@ -23,6 +25,8 @@ class _SearchPageState extends State<SearchPage> {
   Widget _appBarTitle;
 
   String searchQuery = '';
+
+  Random random = new Random();
 
   @override
   void initState() {
@@ -56,10 +60,17 @@ class _SearchPageState extends State<SearchPage> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
-                  child: Text(
-                'Type the name of the anime you want to watch\nand hit the search icon',
-                style: TextStyle(color: Colors.white30),
-                textAlign: TextAlign.center,
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset('images/mob.png', width: 242, height: 219),
+                  SizedBox(height: 25),
+                  Text(
+                    'Type the name of the anime you want to watch\nand hit the search icon',
+                    style: TextStyle(color: Colors.white24),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ));
             }
             if (snapshot.hasData) {
@@ -101,12 +112,16 @@ class _SearchPageState extends State<SearchPage> {
 
     final names = _parsedPage.getElementsByClassName('name');
     final images = _parsedPage.getElementsByTagName('img');
-
+    final rnd = 3 + random.nextInt(10 - 3);
     for (int i = 0; i < names.length; ++i) {
+      if (i % rnd == 0) {
+        animList.add(new AnimeModel(isAd: true));
+      }
       animList.add(new AnimeModel(
           name: names[i].text,
           imgUrl: images[2 + i].attributes.values.elementAt(0),
-          animeUrl: names[i].firstChild.attributes.values.elementAt(0))); 
+          animeUrl: names[i].firstChild.attributes.values.elementAt(0),
+          isAd: false));
     }
     return animList;
   }
@@ -130,7 +145,9 @@ class _SearchPageState extends State<SearchPage> {
               });
               print(searchQuery);
             },
-            style: TextStyle(color: Colors.white.withOpacity(0.9), decoration: TextDecoration.none),
+            style: TextStyle(
+                color: Colors.white.withOpacity(0.9),
+                decoration: TextDecoration.none),
             controller: _filter,
             decoration: InputDecoration(
                 border: InputBorder.none,
@@ -140,7 +157,8 @@ class _SearchPageState extends State<SearchPage> {
                 suffixIcon: IconButton(
                     icon: Icon(Icons.search, color: Colors.white),
                     onPressed: () {
-                      if (_scrollController != null) _scrollController.jumpTo(0);
+                      if (_scrollController != null)
+                        _scrollController.jumpTo(0);
                       _parseSearch(searchQuery);
                     }),
                 hintText: 'Search anime...'),

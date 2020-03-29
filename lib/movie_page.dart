@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animist/anime_card.dart';
 import 'package:animist/anime_model.dart';
 import 'package:animist/drawer.dart';
@@ -22,14 +24,16 @@ class _MoviePageState extends State<MoviePage> {
   http.Client _client;
   dom.Document _parsedPage;
 
+  Random random = new Random();
+
   @override
   void initState() {
     super.initState();
     _client = new http.Client();
     _scrollController = new ScrollController();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent - 300) {
         _parseMoviePage();
       }
     });
@@ -97,12 +101,16 @@ class _MoviePageState extends State<MoviePage> {
   Future<List<AnimeModel>> _getAnimeList() async {
     final names = _parsedPage.getElementsByClassName('name');
     final images = _parsedPage.getElementsByTagName('img');
-
+    final rnd = 3 + random.nextInt(10 - 3);
     for (int i = 0; i < names.length; ++i) {
+      if (i % rnd == 0) {
+        _animList.add(new AnimeModel(isAd: true));
+      }
       _animList.add(new AnimeModel(
           name: names[i].text,
           imgUrl: images[2 + i].attributes.values.elementAt(0),
-          animeUrl: names[i].firstChild.attributes.values.elementAt(0)));
+          animeUrl: names[i].firstChild.attributes.values.elementAt(0),
+          isAd: false));
     }
     return _animList;
   }

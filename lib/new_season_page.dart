@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animist/anime_card.dart';
 import 'package:animist/anime_model.dart';
 import 'package:animist/drawer.dart';
@@ -22,14 +24,16 @@ class _NewSeasonPageState extends State<NewSeasonPage> {
   http.Client _client;
   dom.Document _parsedPage;
 
+  Random random = new Random();
+
   @override
   void initState() {
     super.initState();
     _client = new http.Client();
     _scrollController = new ScrollController();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent - 300) {
         _parseAnimePage();
       }
     });
@@ -98,8 +102,11 @@ class _NewSeasonPageState extends State<NewSeasonPage> {
     final names = _parsedPage.getElementsByClassName('name');
     final images = _parsedPage.getElementsByTagName('img');
     final episode = _parsedPage.getElementsByClassName('episode');
-
+    final rnd = 3 + random.nextInt(10 - 3);
     for (int i = 0; i < names.length; ++i) {
+      if (i % rnd == 0) {
+        _animList.add(new AnimeModel(isAd: true));
+      }
       final ep = episode[i].text.replaceAll(' ', '-');
       final epLink = names[i].firstChild.attributes.values.elementAt(0);
       final correctUrl = epLink.substring(0, epLink.length - ep.length - 1);
@@ -107,7 +114,8 @@ class _NewSeasonPageState extends State<NewSeasonPage> {
       _animList.add(new AnimeModel(
           name: names[i].text,
           imgUrl: images[2 + i].attributes.values.elementAt(0),
-          animeUrl: '/category/' + correctUrl));
+          animeUrl: '/category/' + correctUrl,
+          isAd: false));
     }
     return _animList;
   }
