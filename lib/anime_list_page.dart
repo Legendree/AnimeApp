@@ -4,6 +4,7 @@ import 'package:animist/anime_card.dart';
 import 'package:animist/anime_model.dart';
 import 'package:animist/drawer.dart';
 import 'package:animist/page_parser.dart';
+import 'package:animist/statics.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
@@ -101,7 +102,7 @@ class _AnimeListPageState extends State<AnimeListPage> {
 
   Future<List<AnimeModel>> _getAnimeList() async {
     final listing = _parsedPage.getElementsByClassName('listing');
-    final rnd = 3 + random.nextInt(10 - 3);
+    final rnd = Statics.min + random.nextInt(Statics.max - Statics.min);
     for (int i = 0; i < listing[0].children.length; ++i) {
       if (i % rnd == 0) {
         _animList.add(new AnimeModel(isAd: true));

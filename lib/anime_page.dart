@@ -25,9 +25,12 @@ class _AnimePageState extends State<AnimePage> {
 
   bool isLoading = true;
 
+  Widget _widgetToShow;
+
   @override
   void initState() {
     super.initState();
+    _widgetToShow = SizedBox();
     _client = new http.Client();
     _parseAnimePage();
   }
@@ -113,17 +116,20 @@ class _AnimePageState extends State<AnimePage> {
                     ],
                   ),
                 ),
-                Flexible(
-                  child: GridView.builder(
-                      itemCount: episodeCount,
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
-                      itemBuilder: (context, index) {
-                        return EpisodeCard(
-                            index: index + 1, url: urlForEpisode);
-                      }),
-                ),
+                episodeCount != 0
+                    ? Flexible(
+                        child: GridView.builder(
+                            itemCount: episodeCount,
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3),
+                            itemBuilder: (context, index) {
+                              return EpisodeCard(
+                                  index: index + 1, url: urlForEpisode);
+                            }),
+                      )
+                    : _widgetToShow,
               ],
             ),
           ))),
@@ -151,6 +157,22 @@ class _AnimePageState extends State<AnimePage> {
     urlForEpisode += '-episode-';
 
     episodeCount = _getEpisodes()[1];
+
+    if (episodeCount == 0) {
+      _widgetToShow = Flexible(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.query_builder, color: Colors.white30, size: 50),
+              SizedBox(height: 15),
+              Text('No episodes released yet.\nPlease come back later :)',
+                  style: TextStyle(color: Colors.white30)),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   _getEpisodes() {

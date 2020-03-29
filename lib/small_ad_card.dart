@@ -24,7 +24,8 @@ class _SmallAdCardState extends State<SmallAdCard>
         child: NativeAdmob(
             adUnitID: 'ca-app-pub-1171365882637205/7202973804',
             loading: Center(child: CircularProgressIndicator()),
-            error: Center(child: Icon(Icons.error_outline)),
+            error:
+                Center(child: Icon(Icons.error_outline, color: Colors.white38)),
             options: kAdOptions),
       ),
     );
