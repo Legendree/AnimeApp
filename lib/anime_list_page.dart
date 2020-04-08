@@ -87,7 +87,7 @@ class _AnimeListPageState extends State<AnimeListPage> {
 
   Future _parseAnimePage() async {
     final parser = new PageParser(
-        url: 'https://www16.gogoanime.io/anime-list.html?page=' +
+        url: 'https://www5.gogoanimehub.tv/anime-list.html?page=' +
             pageIndex.toString());
     if (!(await parser.parseData(_client, {
       'User-Agent':

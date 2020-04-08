@@ -138,7 +138,7 @@ class _AnimePageState extends State<AnimePage> {
 
   Future<void> _parseAnimePage() async {
     final parser = new PageParser(
-        url: 'https://www16.gogoanime.io' + widget.animeModel.animeUrl);
+        url: 'https://www5.gogoanimehub.tv/' + widget.animeModel.animeUrl);
     if (!(await parser.parseData(_client, {
       'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'

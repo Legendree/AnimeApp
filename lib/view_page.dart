@@ -93,15 +93,25 @@ class _ViewPageState extends State<ViewPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: RichText(
-                  text: TextSpan(
-                    //Please spare a moment to click this ad below, those clicks keep the app alive and updated. We don't like to force people on ads, so it is your decision to click it or not.
-                    children: <TextSpan>[
-                      TextSpan(text: 'Please spare a moment to click this ad below, those ', style: TextStyle(color: Colors.white.withOpacity(0.3))),
-                      TextSpan(text: 'ad clicks keep the app alive and updated.', style: TextStyle(color: Colors.white.withOpacity(0.3), fontWeight: FontWeight.bold)),
-                      TextSpan(text: " We don't like to force people on ads, so it is your decision to click it or not.", style: TextStyle(color: Colors.white.withOpacity(0.3)))
-                    ]
-                  )
-                ),
+                    text: TextSpan(
+                        //Please spare a moment to click this ad below, those clicks keep the app alive and updated. We don't like to force people on ads, so it is your decision to click it or not.
+                        children: <TextSpan>[
+                      TextSpan(
+                          text:
+                              'Please spare a moment to click this ad below, those ',
+                          style:
+                              TextStyle(color: Colors.white.withOpacity(0.3))),
+                      TextSpan(
+                          text: 'ad clicks keep the app alive and updated.',
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.3),
+                              fontWeight: FontWeight.bold)),
+                      TextSpan(
+                          text:
+                              " We don't like to force people on ads, so it is your decision to click it or not.",
+                          style:
+                              TextStyle(color: Colors.white.withOpacity(0.3)))
+                    ])),
               )),
           AdCard()
         ],
@@ -138,7 +148,8 @@ class _ViewPageState extends State<ViewPage> {
     }))) return;
 
     final videoLink = videoParser.document().getElementsByTagName('script');
-    var vidLink = videoLink[3].text.substring(197, 700).trim();
+    var vidLink = videoLink[3].text.substring(197).trim();
+    //print(vidLink);
     //print(videoLink[3].text);
     const start = "'";
     const end = "'";
@@ -146,80 +157,70 @@ class _ViewPageState extends State<ViewPage> {
     final endIndex = vidLink.indexOf(end, startIndex + start.length);
     var trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);
 
+    print(trueVideoLink);
+
 /*
     print('--------------------------------------------------------------');
     print(trueVideoLink.substring(
         trueVideoLink.length - 4, trueVideoLink.length));
     print('--------------------------------------------------------------');
 */
-    if (trueVideoLink.substring(
-            trueVideoLink.length - 4, trueVideoLink.length) ==
-        'm3u8') {
-      final loadLink = link.replaceFirst('streaming', 'load', 16);
-      print(loadLink);
-      final m3u8Parser = new PageParser(url: 'http://' + loadLink);
-      if (!(await m3u8Parser.parseData(_client, {
-        'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
-      }))) return;
-      final videoLink = m3u8Parser.document().getElementsByTagName('script');
+    //if (trueVideoLink.substring(
+    //        trueVideoLink.length - 4, trueVideoLink.length) !=
+    //    'm3u8') {
+    //
+    //    var lengthOf = trueVideoLink.length;
 
-      if (trueVideoLink.substring(
-              trueVideoLink.length -
-                  widget.episodeUrl.substring(28).length -
-                  '.m3u8'.length,
-              trueVideoLink.length) !=
-          widget.episodeUrl.substring(28) + '.m3u8') {
-        var vidLink = videoLink[2].text;
-        // print(videoLink[2].text.substring(191, 329).trim());
-        const start = "'";
-        const end = "'";
-        final startIndex = vidLink.indexOf(start);
-        final endIndex = vidLink.indexOf(end, startIndex + start.length);
-        trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);
-        final t = trueVideoLink.substring(81, 113);
+    //    vidLink = videoLink[3].text.substring(198 + lengthOf).trim();
+    //    print(vidLink);
+    //    const start = "'";
+    //    const end = "'";
+    //    final startIndex = vidLink.indexOf(start);
+    //    final endIndex = vidLink.indexOf(end, startIndex + start.length);
+    //    trueVideoLink = vidLink.substring(startIndex + start.length, endIndex);
+    //    final t = trueVideoLink.substring(81, 113);
 
-        print(t);
+    //    //print(t);
 
-        final temp = 'https://hls13x.cdnfile.info/stream/';
-        trueVideoLink =
-            temp + t + '/' + widget.episodeUrl.substring(28) + '.m3u8';
-      } else {
-        // if(videoLink[0].text.length < 200 || videoLink[0].text.isEmpty) {
-        for (int i = 0; i < videoLink.length; ++i) {
-          print("ITERATOR");
-          if (videoLink[i].text.isNotEmpty) {
-            if (videoLink[i].text.length > 200) {
-              var vidLink = videoLink[i].text;
-              print(vidLink);
-              const start = "'";
-              const end = "'";
-              final startIndex = vidLink.indexOf(start);
-              final endIndex = vidLink.indexOf(end, startIndex + start.length);
-              trueVideoLink =
-                  vidLink.substring(startIndex + start.length, endIndex);
-              print('TRUE LINK: ' + trueVideoLink);
-              break;
-            }
-          }
-        }
-      }
-      print('Episode name + .M3U8: ' +
-          trueVideoLink.substring(
-              trueVideoLink.length -
-                  widget.episodeUrl.substring(28).length -
-                  '.m3u8'.length,
-              trueVideoLink.length));
-      // } else {
-      //    }
+    //    final temp =
+    //        'https://hls10x.cdnfile.info/videos/'; //https://hls13x.cdnfile.info/stream/
+    //    trueVideoLink =
+    //        temp + t + '/' + widget.episodeUrl.substring(28) + '.m3u8';
+    //  } //else {
+    //// if(videoLink[0].text.length < 200 || videoLink[0].text.isEmpty) {
+    //for (int i = 0; i < videoLink.length; ++i) {
+    //  print("ITERATOR");
+    //  if (videoLink[i].text.isNotEmpty) {
+    //    if (videoLink[i].text.length > 200) {
+    //      var vidLink = videoLink[i].text;
+    //      print(vidLink);
+    //      const start = "'";
+    //      const end = "'";
+    //      final startIndex = vidLink.indexOf(start);
+    //      final endIndex = vidLink.indexOf(end, startIndex + start.length);
+    //      trueVideoLink =
+    //          vidLink.substring(startIndex + start.length, endIndex);
+    //      print('TRUE LINK: ' + trueVideoLink);
+    //      break;
+    //    }
+    //  }
+    //}
+    //}
+    //print('Episode name + .M3U8: ' +
+    //    trueVideoLink.substring(
+    //        trueVideoLink.length -
+    //            widget.episodeUrl.substring(28).length -
+    //            '.m3u8'.length,
+    //        trueVideoLink.length));
+    // } else {
+    //    }
 
-      //fixing faulty links ^^^^^^^^^^^^^^^^^^^^^^^^ from stream.php to load.php and then getting new link
+    //fixing faulty links ^^^^^^^^^^^^^^^^^^^^^^^^ from stream.php to load.php and then getting new link
 
 //https://hls13x.cdnfile.info/stream/2b6ae7027dfab875c9b80bed9e1c45a7/gegege-no-kitarou-2018-episode-96.m3u8
-      print(trueVideoLink);
-    }
+    //print(trueVideoLink);
 
-    print(trueVideoLink);
+    //print(trueVideoLink);
     return trueVideoLink;
   }
 }
