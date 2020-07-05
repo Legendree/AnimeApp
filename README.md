@@ -2,6 +2,10 @@
 
 Watch anime free with fast loading stream
 
+# Screenshots
+
+![App Screenshot](https://i.imgur.com/ih1WEtj.jpg)
+
 
 ## Copyright
 
